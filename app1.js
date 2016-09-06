@@ -1,32 +1,29 @@
 $(function(){
-  var search;
-  var nextToken;
+  var youtubeSearch;
+  var allSearches = [];
   $('#search').submit(function (event) {
     event.preventDefault();
     search = $('#query').val();
     $('#loading').css("display", "block");
-    getVideo(search);
+    youtubeSearch = new VideoSearch(search, function(results) {
+      showResults(results);
+      $('#loading').hide();
+    });
+    youtubeSearch.search();
+    allSearches.push(youtubeSearch);
+
+    showAllSearches();
   });
 
-
-  function getVideo(search,token) {
-    url = 'https://www.googleapis.com/youtube/v3/search';
-    var params = {
-      part: 'snippet',
-      key: 'AIzaSyBxg8x5GUhljKkrDTgPdjYKrpUu8CUYTF8',
-      q: search
-    };
-    if (token) {
-      params.pageToken=token;
-    }
-
-    $.getJSON(url, params, function (search) {
-      showResults(search);
-      $('#loading').hide();
+  function showAllSearches() {
+    $('.last-searches').html('');
+    $.each(allSearches, function(i, el) {
+      $('.last-searches').append('<a href="#" class="last-search" data-pos="' + i +'"> ' + el.term +' </a>');
     });
   }
 
   function showResults(results) {
+    $("#search-results").html('');
     $('#query').val("");
     var arr = [];
     var input = results.items;
@@ -42,11 +39,17 @@ $(function(){
     });
 
     $('#search-results').append(arr);
-
   }
 
   $("#next").click(function () {
-      getVideo(search,nextToken);
+    youtubeSearch.loadMore();
+  });
+
+  $("body").on("click", ".last-search", function(e) {
+    e.preventDefault();
+    var pos = parseInt($(this).data("pos"));
+    console.log(pos);
+    showResults(allSearches[pos].results);
   });
 
 });
