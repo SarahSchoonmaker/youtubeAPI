@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>   
+<script type='text/javascript' src='app1.js'></script>
+  <title>Youtube Search</title>
+</head>
+<style>
+
+body {
+  background-color: #979EC9;
+}
+
+#loading {
+  display: none;
+}
+
+#next, #previous {
+  display: none;
+}
+
+
+#submit, #next, #previous {
+  margin-top: .5em;
+  -webkit-box-shadow:rgba(0,0,0,0.0.1) 0 1px 0 0;
+  -moz-box-shadow:rgba(0,0,0,0.0.1) 0 1px 0 0;
+  box-shadow:rgba(0,0,0,0.0.1) 0 1px 0 0;
+  background-color:#5B74A8;
+  border:1px solid #29447E;
+  font-family:'Lucida Grande',Tahoma,Verdana,Arial,sans-serif;
+  font-size:12px;
+  font-weight:700;
+  padding:2px 6px;
+  color:#fff;
+  border-radius:5px;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px
+}
+
+#submit:hover, #next:hover, #previous:hover {
+  background: #24b662;
+  cursor: pointer; cursor: hand;
+}
+
+</style>
+<body>
+  <form id="search">
+    YouTube Search:
+
+    <br>
+    <input id="query" type="text">
+    <br>
+    <input type="submit" id="submit"> <br>
+  </form>
+  <button id="previous">Previous</button>   <button id="next" value="Get More Titles">Next</button>
+  <div id="loading">Loading Videos....</div>
+  <div id="search-results">
+
+  
+  </div>
+
+</body>
+
+</html>
