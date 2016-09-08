@@ -1,14 +1,17 @@
 $(function(){
-  var youtubeSearch;
+  var currentSearch = -1;
   var allSearches = [];
   $('#search').submit(function (event) {
     event.preventDefault();
     search = $('#query').val();
     $('#loading').css("display", "block");
-    youtubeSearch = new VideoSearch(search, function(results) {
+    $("#search-results").html('');
+    currentSearch++;
+    var youtubeSearch = new VideoSearch(search, function(results) {
       showResults(results);
       $('#loading').hide();
     });
+
     youtubeSearch.search();
     allSearches.push(youtubeSearch);
 
@@ -23,11 +26,13 @@ $(function(){
   }
 
   function showResults(results) {
-    $("#search-results").html('');
+
     $('#query').val("");
     var arr = [];
-    var input = results.items;
+    var input = results;
 
+    console.log(results);
+    
     nextToken=results.nextPageToken;
     
     $.each(input, function( index, value ) {
@@ -42,14 +47,16 @@ $(function(){
   }
 
   $("#next").click(function () {
-    youtubeSearch.loadMore();
+    allSearches[currentSearch].loadMore();
   });
 
   $("body").on("click", ".last-search", function(e) {
     e.preventDefault();
     var pos = parseInt($(this).data("pos"));
-    console.log(pos);
-    showResults(allSearches[pos].results);
+    currentSearch = pos;
+    $("#search-results").html('');
+
+    showResults(allSearchxoes[pos].results);
   });
 
 });

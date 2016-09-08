@@ -1,7 +1,7 @@
 function VideoSearch(term, f) {
   this.term = term;
   this.doWithData = f;
-  this.results;
+  this.results = [];
 }
 
 VideoSearch.prototype.search = function() {
@@ -18,12 +18,13 @@ VideoSearch.prototype.search = function() {
   }
 
   $.getJSON(url, params, function (results) {
-    that.results = results;
+    that.results = that.results.concat(results.items);
     that.pageToken = results.nextPageToken;
-    that.doWithData(results);
+    that.doWithData(that.results);
   });
 }
 
 VideoSearch.prototype.loadMore = function() {
   this.search();
 }
+
